@@ -1,7 +1,7 @@
 class DirectoryWalker
   attr_accessor :dir, :extension, :count
 
-  def initialize(dir_name, extension = '.')
+  def initialize(dir_name, extension = nil)
     @dir = dir_name
     @count = 0
     @extension = extension
@@ -27,7 +27,7 @@ class DirectoryWalker
   end
 
   def handle_file(file)
-    if /#{@extension}$/.match(file)
+    if @extension.nil? || File.extname(file).eql?(@extension)
       puts "adding size of #{file} to total size"
       @count += File.stat(file).size
     end
