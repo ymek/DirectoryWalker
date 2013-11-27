@@ -13,15 +13,13 @@ class DirectoryWalker
   end
 
   def calculate_dirs(dirname)
-    files = Dir.entries(dirname)
-    Dir.chdir(dirname)
+    Dir.foreach(dirname) do |filename|
+      next if %w(. ..).include?(filename)
 
-    files.each do |file|
-      next if %w(. ..).include?(file)
+      file = File.join(dirname, filename)
 
       if File.directory?(file)
         calculate_dirs(file)
-        Dir.chdir("..")
       else
         handle_file(file)
       end
