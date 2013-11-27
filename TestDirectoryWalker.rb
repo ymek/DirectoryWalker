@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative 'DirectoryWalker'
 require 'minitest/autorun'
+require File.join(File.dirname(__FILE__), 'DirectoryWalker')
 
 class DirectoryTest < MiniTest::Unit::TestCase
 
