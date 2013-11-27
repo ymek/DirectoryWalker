@@ -1,21 +1,18 @@
 class DirectoryWalker
   attr_accessor :dir_name, :extension, :count
 
-  def initialize(dir_name, extension)
+  def initialize(dir_name, extension = '.')
     @dir = dir_name
     @count = 0
     @extension = extension
   end
 
   def calculate
-    if @extension == nil
-      @extension = "."
-    end
-    calculate_dirs(@dir, @extension)
+    calculate_dirs(@dir, extension)
     puts "Total size is: #{@count}"
   end
 
-  def calculate_dirs(dirname, extension="")
+  def calculate_dirs(dirname, extension = '')
     files = Dir.entries(dirname)
     Dir.chdir(dirname)
 
