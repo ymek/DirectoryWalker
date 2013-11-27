@@ -16,16 +16,16 @@ class DirectoryWalker
     files = Dir.entries(dirname)
     Dir.chdir(dirname)
 
-    files.each do |x|
-      if x == "." || x == ".."
+    files.each do |file|
+      if file == "." || file == ".."
         next
-      elsif File.ftype(x) == "directory"
-        calculate_dirs(x, extension)
+      elsif File.ftype(file) == "directory"
+        calculate_dirs(file, extension)
         Dir.chdir("..")
       else
-        if /#{extension}$/.match(x)
-          puts "adding size of #{x} to total size"
-          @count += File.stat(x).size
+        if /#{extension}$/.match(file)
+          puts "adding size of #{file} to total size"
+          @count += File.stat(file).size
         end
       end
     end
