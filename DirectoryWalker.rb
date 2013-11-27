@@ -8,11 +8,11 @@ class DirectoryWalker
   end
 
   def calculate
-    calculate_dirs(@dir, extension)
+    calculate_dirs(@dir)
     puts "Total size is: #{@count}"
   end
 
-  def calculate_dirs(dirname, extension = '')
+  def calculate_dirs(dirname)
     files = Dir.entries(dirname)
     Dir.chdir(dirname)
 
@@ -20,10 +20,10 @@ class DirectoryWalker
       next if %w(. ..).include?(file)
 
       if File.directory?(file)
-        calculate_dirs(file, extension)
+        calculate_dirs(file)
         Dir.chdir("..")
       else
-        if /#{extension}$/.match(file)
+        if /#{@extension}$/.match(file)
           puts "adding size of #{file} to total size"
           @count += File.stat(file).size
         end
