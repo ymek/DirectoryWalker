@@ -17,9 +17,9 @@ class DirectoryWalker
     Dir.chdir(dirname)
 
     files.each do |file|
-      if file == "." || file == ".."
-        next
-      elsif File.ftype(file) == "directory"
+      next if %w(. ..).include?(file)
+
+      if File.ftype(file) == "directory"
         calculate_dirs(file, extension)
         Dir.chdir("..")
       else
