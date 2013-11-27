@@ -1,12 +1,12 @@
 class DirectoryWalker
   attr_accessor :dir_name, :extension, :count
 
-  def initialize(dir_name,extension)
+  def initialize(dir_name, extension)
     @dir = dir_name
     @count = 0
     @extension = extension
   end
-  
+
   def calculate
     if @extension == nil
       @extension = "."
