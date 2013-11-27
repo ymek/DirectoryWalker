@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 require 'DirectoryWalker'
 
 dir_name = ARGV[0].dup
