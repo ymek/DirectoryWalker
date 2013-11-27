@@ -1,5 +1,5 @@
 class DirectoryWalker
-  attr_accessor :dir_name, :extension, :count
+  attr_accessor :dir, :extension, :count
 
   def initialize(dir_name, extension = '.')
     @dir = dir_name
