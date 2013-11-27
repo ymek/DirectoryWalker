@@ -19,7 +19,7 @@ class DirectoryWalker
     files.each do |file|
       next if %w(. ..).include?(file)
 
-      if File.ftype(file) == "directory"
+      if File.directory?(file)
         calculate_dirs(file, extension)
         Dir.chdir("..")
       else
