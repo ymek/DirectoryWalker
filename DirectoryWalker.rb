@@ -1,36 +1,34 @@
 class DirectoryWalker
-  attr_accessor :dir_name, :extension, :count
+  attr_accessor :directory, :extension, :count
 
-  def initialize(dir_name,extension)
-    @dir = dir_name
+  def initialize(directory, extension = nil)
+    @directory = directory
     @count = 0
     @extension = extension
   end
   
-  def calculate
-    if @extension == nil
-      @extension = "."
-    end
-    calculate_dirs(@dir, @extension)
+  def find_size
+    directory_walk(@directory)
     puts "Total size is: #{@count}"
   end
 
-  def calculate_dirs(dirname, extension="")
-    files = Dir.entries(dirname)
-    Dir.chdir(dirname)
-
-    files.each do |x|
-      if x == "." || x == ".."
-        next
-      elsif File.ftype(x) == "directory"
-        calculate_dirs(x, extension)
-        Dir.chdir("..")
+  def directory_walk(directory)
+    Dir.foreach(directory) do |filename|
+      next if %w(. ..).include?(filename)
+      file = File.join(directory,filename)
+      if File.directory?(file)
+        directory_walk(file)
       else
-        if /#{extension}$/.match(x)
-          puts "adding size of #{x} to total size"
-          @count += File.stat(x).size
-        end
+        add_file(file)
       end
     end
   end
+
+  def add_file(file)
+    if @extension.nil? || File.extname(file).eql?(@extension)
+      puts "adding size of #{file} to total size"
+      @count += File.stat(file).size
+    end
+  end
+
 end
