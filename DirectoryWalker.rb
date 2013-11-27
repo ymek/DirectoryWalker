@@ -23,11 +23,15 @@ class DirectoryWalker
         calculate_dirs(file)
         Dir.chdir("..")
       else
-        if /#{@extension}$/.match(file)
-          puts "adding size of #{file} to total size"
-          @count += File.stat(file).size
-        end
+        handle_file(file)
       end
+    end
+  end
+
+  def handle_file(file)
+    if /#{@extension}$/.match(file)
+      puts "adding size of #{file} to total size"
+      @count += File.stat(file).size
     end
   end
 end
