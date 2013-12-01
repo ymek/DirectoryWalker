@@ -14,9 +14,12 @@ class DirectoryWalker
 
   def directory_walk(directory)
     Dir.foreach(directory) do |filename|
-      next if %w(. ..).include?(filename)
-
       file = File.join(directory, filename)
+
+      next if %w(. ..).include?(filename) ||
+        !File.exists?(file) ||
+        !File.readable?(file)
+
       if File.directory?(file)
         directory_walk(file)
       else
