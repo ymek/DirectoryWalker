@@ -7,6 +7,24 @@ class DirectoryWalker
     @extension = extension
   end
 
+  class << self
+    def readable_path?(path)
+      File.exists?(path) && File.readable?(path)
+    end
+
+    def valid_directory?(dir_path)
+      (real_path = File.realdirpath(dir_path)) &&
+        DirectoryWalker.readable_path?(real_path) &&
+        File.directory?(real_path)
+    end
+
+    def valid_file?(file_name)
+      (real_path = File.realdirpath(file_name)) &&
+        DirectoryWalker.readable_path?(real_path) &&
+        File.file?(real_path)
+    end
+  end
+
   def find_size
     directory_walk(@directory)
     puts "Total size is: #{@count}"
@@ -14,15 +32,12 @@ class DirectoryWalker
 
   def directory_walk(directory)
     Dir.foreach(directory) do |filename|
+      next if %w(. ..).include?(filename)
+
       file = File.join(directory, filename)
-
-      next if %w(. ..).include?(filename) ||
-        !File.exists?(file) ||
-        !File.readable?(file)
-
-      if File.directory?(file)
+      if DirectoryWalker.valid_directory?(file)
         directory_walk(file)
-      else
+      elsif DirectoryWalker.valid_file?(file)
         add_file(file)
       end
     end
