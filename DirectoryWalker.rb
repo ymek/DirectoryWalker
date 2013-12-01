@@ -6,7 +6,7 @@ class DirectoryWalker
     @count = 0
     @extension = extension
   end
-  
+
   def find_size
     directory_walk(@directory)
     puts "Total size is: #{@count}"
@@ -15,7 +15,8 @@ class DirectoryWalker
   def directory_walk(directory)
     Dir.foreach(directory) do |filename|
       next if %w(. ..).include?(filename)
-      file = File.join(directory,filename)
+
+      file = File.join(directory, filename)
       if File.directory?(file)
         directory_walk(file)
       else
@@ -30,5 +31,4 @@ class DirectoryWalker
       @count += File.stat(file).size
     end
   end
-
 end
