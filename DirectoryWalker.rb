@@ -6,22 +6,20 @@ class DirectoryWalker
     @count = 0
     @extension = extension
   end
- 
+
   class << self
     def readable_path?(path)
       File.exists?(path) && File.readable?(path)
     end
 
     def valid_directory?(dir_path)
-      (real_path = File.realdirpath(dir_path)) &&
-        DirectoryWalker.readable_path?(real_path) &&
-        File.directory?(real_path)
+      DirectoryWalker.readable_path?(dir_path) &&
+        File.directory?(dir_path)
     end
 
     def valid_file?(file_name)
-      (real_path = File.realdirpath(file_name)) &&
-        DirectoryWalker.readable_path?(real_path) &&
-        File.file?(real_path)
+      DirectoryWalker.readable_path?(file_name) &&
+        File.file?(file_name)
     end
   end
 
@@ -34,7 +32,7 @@ class DirectoryWalker
     Dir.foreach(directory) do |filename|
       next if %w(. ..).include?(filename)
 
-      file = File.join(directory, filename)
+      file = File.absolute_path(filename, directory)
       if DirectoryWalker.valid_directory?(file)
         directory_walk(file)
       elsif DirectoryWalker.valid_file?(file)
