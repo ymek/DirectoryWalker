@@ -39,4 +39,23 @@ class DirectoryTest < MiniTest::Unit::TestCase
     dir.find_size
     assert_in_delta(9, dir.count, 0.01)
   end
+
+  def test_invalid_file
+    fake_file = File.join(@directory, 'fake_file')
+    assert(!DirectoryWalker.valid_file?(fake_file))
+  end
+
+  def test_valid_file
+    real_file = File.join(@directory, 'a')
+    assert(DirectoryWalker.valid_file?(real_file))
+  end
+
+  def test_invalid_directory
+    fake_dir = File.join(@directory, 'fake_dir')
+    assert(!DirectoryWalker.valid_directory?(fake_dir))
+  end
+
+  def test_valid_directory
+    assert(DirectoryWalker.valid_directory?(@directory))
+  end
 end
